@@ -14,6 +14,7 @@ class Login extends React.Component {
     email: "",
     password: ""
   };
+
   handleLogin = () => {
     const { email, password } = this.state;
 
@@ -51,6 +52,12 @@ class Login extends React.Component {
           title="Don't have an account yet? Sign up"
           onPress={() => this.props.navigation.navigate("Signup")}
         />
+        <View style={styles.forgotpassword}>
+          <Button
+            title="Forgot Password"
+            onPress={() => this.props.navigation.navigate("Forgot")}
+          />
+        </View>
       </View>
     );
   }
@@ -90,6 +97,9 @@ const styles = StyleSheet.create({
   },
   buttonSignup: {
     fontSize: 12
+  },
+  forgotpassword: {
+    marginTop: 20
   }
 });
 

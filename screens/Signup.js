@@ -5,7 +5,8 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  TextInput
+  TextInput,
+  Button
 } from "react-native";
 
 const Signup = props => {
@@ -53,6 +54,10 @@ const Signup = props => {
       <TouchableOpacity style={styles.button} onPress={handleSignup}>
         <Text style={styles.buttonText}>Signup</Text>
       </TouchableOpacity>
+      <Button
+        title="Go To Login"
+        onPress={() => props.navigation.navigate("Login")}
+      />
     </View>
   );
 };
