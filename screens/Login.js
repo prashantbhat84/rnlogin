@@ -21,7 +21,7 @@ class Login extends React.Component {
     Firebase.auth()
       .signInWithEmailAndPassword(email.trim(), password)
       .then(user => {
-        console.log(user);
+        console.log(user.user.uid);
 
         this.props.navigation.navigate("Profile");
       })
