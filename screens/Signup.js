@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   TextInput,
   Button,
-  Alert
+  Alert,
+  TouchableHighlight
 } from "react-native";
 
 const Signup = props => {
@@ -79,10 +80,12 @@ const Signup = props => {
       >
         <Text style={styles.buttonText}>Signup</Text>
       </TouchableOpacity>
-      <Button
-        title="Go To Login"
+      <TouchableHighlight
+        style={styles.button}
         onPress={() => props.navigation.navigate("Login")}
-      />
+      >
+        <Text>Go to Login</Text>
+      </TouchableHighlight>
     </View>
   );
 };
@@ -90,34 +93,36 @@ const Signup = props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    backgroundColor: "#DCDCDC"
   },
   inputBox: {
-    width: "85%",
+    width: 250,
+    height: 45,
     margin: 10,
     padding: 15,
     fontSize: 16,
-    borderColor: "#d3d3d3",
-    borderBottomWidth: 1,
-    textAlign: "center"
+    borderRadius: 30,
+    flexDirection: "row",
+    textAlign: "center",
+    borderBottomColor: "#F5FCFF",
+    backgroundColor: "#FFFFFF"
   },
   button: {
-    marginTop: 30,
-    marginBottom: 20,
-    paddingVertical: 5,
+    height: 45,
+    flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#FFA611",
-    borderColor: "#FFA611",
-    borderWidth: 1,
-    borderRadius: 5,
-    width: 200
+    marginBottom: 20,
+    width: 250,
+    borderRadius: 30
   },
   buttonText: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#fff"
+    color: "black"
   },
   buttonSignup: {
     fontSize: 12

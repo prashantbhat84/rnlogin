@@ -1,7 +1,15 @@
 import React, { useState, useRef } from "react";
 import Firebase from "../config/Firebase";
 
-import { View, StyleSheet, TextInput, Button, Alert } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  Button,
+  Alert,
+  TouchableOpacity,
+  Text
+} from "react-native";
 
 const ForgotPassword = props => {
   const [email, setEmail] = useState("");
@@ -29,10 +37,9 @@ const ForgotPassword = props => {
         placeholder="Email"
         autoCapitalize="none"
       />
-
-      <View>
-        <Button title="Submit" onPress={() => emailSend(email)} />
-      </View>
+      <TouchableOpacity style={Styles.button} onPress={() => emailSend(email)}>
+        <Text style={Styles.text}>Submit</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -40,23 +47,37 @@ const ForgotPassword = props => {
 const Styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
     justifyContent: "center",
-    alignItems: "center"
+    backgroundColor: "#DCDCDC"
   },
   button: {
-    marginTop: 50
+    height: 45,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20,
+    width: 250,
+    borderRadius: 30
   },
   text: {
-    marginBottom: 30
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "black"
   },
   inputBox: {
-    width: "85%",
+    width: 250,
+    height: 45,
     margin: 10,
     padding: 15,
     fontSize: 16,
-    borderColor: "#d3d3d3",
-    borderBottomWidth: 1,
-    textAlign: "center"
+    borderRadius: 30,
+    flexDirection: "row",
+    textAlign: "center",
+    borderBottomColor: "#F5FCFF",
+    backgroundColor: "#FFFFFF",
+    marginTop: 20
   }
 });
 export default ForgotPassword;

@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   Text,
   Button,
-  Alert
+  Alert,
+  TouchableHighlight
 } from "react-native";
 
 class Login extends React.Component {
@@ -43,7 +44,7 @@ class Login extends React.Component {
           if (code === "auth/user-disabled") {
             Alert.alert(
               "Info",
-              "Your account has been suspended.Please contact support at hyperinfinite2019@gmail.com"
+              "Your account has been suspended .Please email at hyperinfinite2019@gmail.com for more information"
             );
           }
         });
@@ -70,16 +71,18 @@ class Login extends React.Component {
         <TouchableOpacity style={styles.button} onPress={this.handleLogin}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
-        <Button
-          title="Don't have an account yet? Sign up"
+        <TouchableHighlight
+          style={styles.button}
           onPress={() => this.props.navigation.navigate("Signup")}
-        />
-        <View style={styles.forgotpassword}>
-          <Button
-            title="Forgot Password"
-            onPress={() => this.props.navigation.navigate("Forgot")}
-          />
-        </View>
+        >
+          <Text>Register</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.button}
+          onPress={() => this.props.navigation.navigate("Forgot")}
+        >
+          <Text>Forgot your password?</Text>
+        </TouchableHighlight>
       </View>
     );
   }
@@ -88,34 +91,36 @@ class Login extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    backgroundColor: "#DCDCDC"
   },
   inputBox: {
-    width: "85%",
+    width: 250,
+    height: 45,
     margin: 10,
     padding: 15,
     fontSize: 16,
-    borderColor: "#d3d3d3",
-    borderBottomWidth: 1,
-    textAlign: "center"
+
+    flexDirection: "row",
+    textAlign: "center",
+    borderBottomColor: "#F5FCFF",
+    backgroundColor: "#FFFFFF"
   },
   button: {
-    marginTop: 30,
-    marginBottom: 20,
-    paddingVertical: 5,
+    height: 45,
+    flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F6820D",
-    borderColor: "#F6820D",
-    borderWidth: 1,
-    borderRadius: 5,
-    width: 200
+    marginBottom: 20,
+    width: 250,
+    borderRadius: 30
   },
   buttonText: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#fff"
+    color: "black"
   },
   buttonSignup: {
     fontSize: 12
