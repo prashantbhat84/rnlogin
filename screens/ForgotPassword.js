@@ -17,6 +17,7 @@ const ForgotPassword = props => {
           "Caution!!!",
           "This E-mail account does not exist Please Signup"
         );
+
         props.navigation.navigate("Signup");
       });
   };

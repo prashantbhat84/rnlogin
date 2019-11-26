@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Firebase from "../config/Firebase";
 import {
   View,
@@ -6,7 +6,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
-  Button
+  Button,
+  Alert
 } from "react-native";
 
 const Signup = props => {
@@ -14,19 +15,39 @@ const Signup = props => {
   const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
   const [userid, setUserid] = useState("");
-  const handleSignup = () => {
-    console.log(email);
-    console.log(password);
 
-    Firebase.auth()
+  const handleSignup = () => {
+    Firebase.auth(email, password)
       .createUserWithEmailAndPassword(email.trim(), password)
       .then(user => {
         setUserid(user.uid);
-        console.log(userid);
+        let appUser = Firebase.auth().currentUser;
+        console.log(appUser);
+        appUser
+          .sendEmailVerification()
+          .then(() => {
+            console.log("email sent");
+          })
+          .catch(error => {
+            console.log(error);
+          });
 
         props.navigation.navigate("Profile");
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        let { code } = error;
+        console.log(code);
+
+        if (code === "auth/email-already-in-use") {
+          Alert.alert(
+            "Email Exists",
+            "Email id already exists. Please use another E-mail ID"
+          );
+        }
+        if (code === "auth/weak-password") {
+          Alert.alert("Password", "Password Length must be of minimum 6 chars");
+        }
+      });
   };
 
   return (
@@ -51,7 +72,10 @@ const Signup = props => {
         placeholder="Password"
         secureTextEntry={true}
       />
-      <TouchableOpacity style={styles.button} onPress={handleSignup}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handleSignup(email, password)}
+      >
         <Text style={styles.buttonText}>Signup</Text>
       </TouchableOpacity>
       <Button

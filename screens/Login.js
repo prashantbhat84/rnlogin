@@ -6,7 +6,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   Text,
-  Button
+  Button,
+  Alert
 } from "react-native";
 
 class Login extends React.Component {
@@ -17,15 +18,36 @@ class Login extends React.Component {
 
   handleLogin = () => {
     const { email, password } = this.state;
+    if (email === "" || password === "") {
+      Alert.alert(
+        "Message",
+        "One or more Fields is blank. Please fill all fields"
+      );
+    } else {
+      Firebase.auth()
+        .signInWithEmailAndPassword(email.trim(), password)
+        .then(user => {
+          //console.log(user.user.uid);
+          console.log(user);
 
-    Firebase.auth()
-      .signInWithEmailAndPassword(email.trim(), password)
-      .then(user => {
-        console.log(user.user.uid);
-
-        this.props.navigation.navigate("Profile");
-      })
-      .catch(error => console.log(error));
+          this.props.navigation.navigate("Profile");
+        })
+        .catch(error => {
+          let { code } = error;
+          if (code === "auth/wrong-password") {
+            Alert.alert("Error", "Wrong Password");
+          }
+          if (code === "auth/user-not-found") {
+            Alert.alert("Alert", "This user does not exist.");
+          }
+          if (code === "auth/user-disabled") {
+            Alert.alert(
+              "Info",
+              "Your account has been suspended.Please contact support at hyperinfinite2019@gmail.com"
+            );
+          }
+        });
+    }
   };
 
   render() {
