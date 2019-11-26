@@ -16,8 +16,8 @@ const Signup = props => {
   const [password, setPassword] = useState("");
   const [userid, setUserid] = useState("");
 
-  const handleSignup = () => {
-    Firebase.auth(email, password)
+  const handleSignup = (email, password) => {
+    Firebase.auth()
       .createUserWithEmailAndPassword(email.trim(), password)
       .then(user => {
         setUserid(user.uid);
