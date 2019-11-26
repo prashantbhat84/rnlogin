@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import Firebase from "../config/Firebase";
 import {
   View,
@@ -15,6 +15,7 @@ const Signup = props => {
   const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
   const [userid, setUserid] = useState("");
+  const inputref = useRef();
 
   const handleSignup = (email, password) => {
     Firebase.auth()
@@ -23,20 +24,16 @@ const Signup = props => {
         setUserid(user.uid);
         let appUser = Firebase.auth().currentUser;
         console.log(appUser);
-        appUser
-          .sendEmailVerification()
-          .then(() => {
-            console.log("email sent");
-          })
-          .catch(error => {
-            console.log(error);
-          });
-
+        appUser.sendEmailVerification().then(() => {
+          console.log("email sent");
+        });
+        appUser.updateProfile({ displayName: name }).catch(e => {
+          console.log(e);
+        });
         props.navigation.navigate("Profile");
       })
       .catch(error => {
         let { code } = error;
-        console.log(code);
 
         if (code === "auth/email-already-in-use") {
           Alert.alert(
@@ -61,20 +58,24 @@ const Signup = props => {
       <TextInput
         style={styles.inputBox}
         value={email}
-        onChangeText={email => setemail(email)}
+        onChangeText={email => {
+          setemail(email);
+        }}
         placeholder="Email"
         autoCapitalize="none"
       />
       <TextInput
         style={styles.inputBox}
         value={password}
-        onChangeText={password => setPassword(password)}
+        onChangeText={password => {
+          setPassword(password);
+        }}
         placeholder="Password"
         secureTextEntry={true}
       />
       <TouchableOpacity
         style={styles.button}
-        onPress={handleSignup(email, password)}
+        onPress={() => handleSignup(email, password)}
       >
         <Text style={styles.buttonText}>Signup</Text>
       </TouchableOpacity>
