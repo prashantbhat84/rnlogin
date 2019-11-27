@@ -15,6 +15,7 @@ const Signup = props => {
   const [name, setName] = useState("");
   const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
+  const [phoneno, setPhoneno] = useState("");
   const [userid, setUserid] = useState("");
   const inputref = useRef();
 
@@ -22,7 +23,11 @@ const Signup = props => {
     Firebase.auth()
       .createUserWithEmailAndPassword(email.trim(), password)
       .then(user => {
-        setUserid(user.uid);
+        setUserid(user.user.uid);
+        console.log(` logged in userid: ${user.user.uid}`);
+        let id = user.user.uid;
+
+        console.log(userid);
         let appUser = Firebase.auth().currentUser;
 
         appUser.sendEmailVerification().then(() => {
@@ -31,6 +36,14 @@ const Signup = props => {
         appUser.updateProfile({ displayName: name }).catch(e => {
           console.log(e);
         });
+        Firebase.database()
+          .ref("/users/" + id)
+          .set({
+            FullName: name,
+            MobileNumber: phoneno,
+            email: email,
+            createdAt: Firebase.auth().currentUser.metadata.creationTime
+          });
 
         //console.log(appUser);
         Alert.alert(
@@ -62,7 +75,12 @@ const Signup = props => {
         onChangeText={name => setName(name)}
         placeholder="Full Name"
       />
-
+      <TextInput
+        style={styles.inputBox}
+        value={phoneno}
+        onChangeText={mobile => setPhoneno(mobile)}
+        placeholder="Mobile Number"
+      />
       <TextInput
         style={styles.inputBox}
         value={email}
