@@ -30,19 +30,19 @@ const Signup = props => {
         console.log(userid);
         let appUser = Firebase.auth().currentUser;
 
-        appUser.sendEmailVerification().then(() => {
-          console.log("email sent");
-        });
         appUser.updateProfile({ displayName: name }).catch(e => {
           console.log(e);
         });
+        const date = Firebase.auth().currentUser.metadata.creationTime;
+        const myDate = new Date(date);
+        const createDate = myDate.toLocaleString();
         Firebase.database()
           .ref("/users/" + id)
           .set({
             FullName: name,
             MobileNumber: phoneno,
             email: email,
-            createdAt: Firebase.auth().currentUser.metadata.creationTime
+            createdAt: createDate
           });
 
         //console.log(appUser);
