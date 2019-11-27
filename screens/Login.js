@@ -29,7 +29,7 @@ class Login extends React.Component {
         .signInWithEmailAndPassword(email.trim(), password)
         .then(user => {
           //console.log(user.user.uid);
-          console.log(user);
+          // console.log(user);
 
           this.props.navigation.navigate("Profile");
         })

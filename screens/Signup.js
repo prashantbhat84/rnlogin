@@ -24,13 +24,19 @@ const Signup = props => {
       .then(user => {
         setUserid(user.uid);
         let appUser = Firebase.auth().currentUser;
-        console.log(appUser);
+
         appUser.sendEmailVerification().then(() => {
           console.log("email sent");
         });
         appUser.updateProfile({ displayName: name }).catch(e => {
           console.log(e);
         });
+
+        //console.log(appUser);
+        Alert.alert(
+          "Message",
+          "Please check your email for account verification details"
+        );
         props.navigation.navigate("Profile");
       })
       .catch(error => {
@@ -56,6 +62,7 @@ const Signup = props => {
         onChangeText={name => setName(name)}
         placeholder="Full Name"
       />
+
       <TextInput
         style={styles.inputBox}
         value={email}
