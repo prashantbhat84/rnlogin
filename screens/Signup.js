@@ -33,16 +33,17 @@ const Signup = props => {
         appUser.updateProfile({ displayName: name }).catch(e => {
           console.log(e);
         });
-        const date = Firebase.auth().currentUser.metadata.creationTime;
-        const myDate = new Date(date);
-        const createDate = myDate.toLocaleString();
+        const date = new Date(
+          Firebase.auth().currentUser.metadata.creationTime
+        ).toLocaleString();
+
         Firebase.database()
           .ref("/users/" + id)
           .set({
             FullName: name,
             MobileNumber: phoneno,
             email: email,
-            createdAt: createDate
+            createdAt: date
           });
 
         //console.log(appUser);

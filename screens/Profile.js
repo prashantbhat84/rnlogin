@@ -1,11 +1,45 @@
 import React, { useEffect } from "react";
 import { View, Text, StyleSheet, Alert } from "react-native";
 import Firebase from "../config/Firebase";
-
+import { Notifications } from "expo";
+import * as Permissions from "expo-permissions";
 const Profile = props => {
+  const registerForPushNotificationsAsync = async user => {
+    const { status: existingStatus } = await Permissions.getAsync(
+      Permissions.NOTIFICATIONS
+    );
+    let finalStatus = existingStatus;
+
+    // only ask if permissions have not already been determined, because
+    // iOS won't necessarily prompt the user a second time.
+    if (existingStatus !== "granted") {
+      // Android remote notification permissions are granted during the app
+      // install, so this will only ask on iOS
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
+    }
+
+    // Stop here if the user did not grant permissions
+    if (finalStatus !== "granted") {
+      return;
+    }
+
+    try {
+      // Get the token that uniquely identifies this device
+      let token = await Notifications.getExpoPushTokenAsync();
+
+      // POST the token to your backend server from where you can retrieve it to send push notifications.
+      Firebase.database()
+        .ref("/users/" + user + "/push_token")
+        .set(token);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     let user = Firebase.auth().currentUser;
-    console.log(user);
+    console.log(user.uid);
 
     console.log(user.emailVerified);
     if (user.emailVerified === false) {
@@ -27,6 +61,8 @@ const Profile = props => {
         .catch(e => {
           console.log(e);
         });
+    } else {
+      registerForPushNotificationsAsync(user.uid);
     }
   }, []);
   return (
