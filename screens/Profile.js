@@ -36,6 +36,20 @@ const Profile = props => {
       console.log(error);
     }
   };
+  const getuserData = async () => {
+    let user = Firebase.auth().currentUser.uid;
+    try {
+      let data = await Firebase.database()
+        .ref("/users/" + user)
+        .once("value");
+      console.log("user info");
+
+      console.log(data.val().push_token);
+      console.log(data.val());
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     let user = Firebase.auth().currentUser;
@@ -63,6 +77,7 @@ const Profile = props => {
         });
     } else {
       registerForPushNotificationsAsync(user.uid);
+      getuserData();
     }
   }, []);
   return (
