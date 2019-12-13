@@ -24,15 +24,18 @@ const Signup = props => {
       .createUserWithEmailAndPassword(email.trim(), password)
       .then(user => {
         setUserid(user.user.uid);
-        console.log(` logged in userid: ${user.user.uid}`);
+        console.log(user);
+
         let id = user.user.uid;
 
         console.log(userid);
         let appUser = Firebase.auth().currentUser;
 
-        appUser.updateProfile({ displayName: name }).catch(e => {
-          console.log(e);
-        });
+        appUser
+          .updateProfile({ displayName: name, phoneNumber: phoneno })
+          .catch(e => {
+            console.log(e);
+          });
         const date = new Date(
           Firebase.auth().currentUser.metadata.creationTime
         ).toLocaleString();

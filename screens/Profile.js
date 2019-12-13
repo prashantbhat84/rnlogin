@@ -76,7 +76,7 @@ const Profile = props => {
           console.log(e);
         });
     } else {
-      registerForPushNotificationsAsync(user.uid);
+      // registerForPushNotificationsAsync(user.uid);
       getuserData();
     }
   }, []);
